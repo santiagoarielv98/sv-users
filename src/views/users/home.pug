@@ -1,0 +1,40 @@
+extends ../layout
+
+block content
+  <div class="flex overflow-auto">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Username</th>
+          <th scope="col">Email</th>
+          <th scope="col">Role</th>
+          //- action
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        each user in users
+          - let avatar = user.avatar === "avatar.png" ? "/static/" + user.avatar : user.avatar
+          tr
+            th(scope="row")
+              img(src=avatar, alt=user.username, width="50" height="50")
+            td= user.username
+            td= user.email
+            td= user.role
+            //- action
+            //- td
+            //-   a.btn.btn-primary.btn-sm(href="/users/edit/" + user._id) Edit
+            //-   a.btn.btn-danger.btn-sm(href="/users/delete/" + user._id) Delete
+            td
+              form(action="/users/edit/" + user._id, method="GET")
+                button.btn.btn-primary.btn-sm(type="submit") Edit
+              form(action="/users/delete/" + user._id, method="POST")
+                button.btn.btn-danger.btn-sm(type="submit") Delete
+
+        if users.length === 0
+          tr
+            td(colspan="4") No users found.
+      </tbody>
+    </table>  
+  </div>
